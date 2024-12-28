@@ -5,6 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
+    public GameObject mainCamera;
+
+    public GameObject GameStartUI;
+    public Transform firstPosition;
+    public Transform secondPosition;
+
+    public CameraScript cameraScriptObject; 
+
+    public float CamMoveSpeed = 5f;
     void Start()
     {
         
@@ -19,6 +28,8 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Game Started");
+        //GameStartUI.SetActive(false);
+        cameraScriptObject.GameStartTransition();
     }
 
     public void LoadGame()
