@@ -7,9 +7,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     public GameObject mainCamera;
 
-    public GameObject GameStartUI;
-    public Transform firstPosition;
-    public Transform secondPosition;
+    //public GameObject GameStartUI;
+
 
     public CameraScript cameraScriptObject; 
 
@@ -22,7 +21,33 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if( Input.GetKeyDown(KeyCode.Z))
+        {
+            ZoomIn();
+        }
+
+        if( Input.GetKeyDown(KeyCode.N))
+        {
+            NextLetter();
+        }
+    }
+
+    public void NextLetter()
+    {
+        Debug.Log("Next Letter");
+        cameraScriptObject.NextLetterTransition();
+    }
+
+    public void ZoomIn()
+    {
+        Debug.Log("Zoom In");
+        Word fightWord = new Word(
+    "Fight",
+    new Vector3(-39.4911118f, 59.449192f, -44.228199f),
+    new Vector3(60.7000008f, 59.449192f, -44.228199f)
+);
+
+        cameraScriptObject.ZoomInToLetter(fightWord);
     }
 
     public void StartGame()

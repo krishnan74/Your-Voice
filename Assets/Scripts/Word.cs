@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Word 
 {
     private string wordString;
     private bool isFound = false;
     private float firstLetterXCoordinate;
     private float firstLetterYCoordinate;
-
     private float lastLetterXCoordinate;
     private float lastLetterYCoordinate;
-    
+
+    public Word(string wordString, Vector3 firstLetterCoordinates, Vector3 lastLetterCoordinates)
+    {
+        this.wordString = wordString;
+        this.firstLetterXCoordinate = firstLetterCoordinates.x;
+        this.firstLetterYCoordinate = firstLetterCoordinates.y;
+        this.lastLetterXCoordinate = lastLetterCoordinates.x;
+        this.lastLetterYCoordinate = lastLetterCoordinates.y;
+    }
+
     public void wordFound(){
         this.isFound = true;
     }
@@ -21,14 +28,10 @@ public class Word
     }
 
     public float[] getFirstLetterCoordinates(){
-        float[] coordinates = {this.firstLetterXCoordinate, this.firstLetterYCoordinate};
-        return coordinates;
-    
+        return new float[] { this.firstLetterXCoordinate, this.firstLetterYCoordinate };
     }
 
     public float[] getLastLetterCoordinates(){
-        float[] coordinates = {this.lastLetterXCoordinate, this.lastLetterYCoordinate};
-        return coordinates;
+        return new float[] { this.lastLetterXCoordinate, this.lastLetterYCoordinate };
     }
-
 }
