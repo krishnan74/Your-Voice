@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Zoom In");
         Word fightWord = new Word(
     "Fight",
-    new Vector3(-39.4911118f, 59.449192f, -44.228199f),
+    new Vector3(-37.9f, -8.2f, -30.8f),
     new Vector3(60.7000008f, 59.449192f, -44.228199f)
 );
 
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Started");
         //GameStartUI.SetActive(false);
         cameraScriptObject.GameStartTransition();
+        
     }
 
     public void LoadGame()

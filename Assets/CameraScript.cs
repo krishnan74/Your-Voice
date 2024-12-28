@@ -68,7 +68,7 @@ public class CameraScript : MonoBehaviour
 
     public void NextLetterTransition()
     {
-        Debug.Log("Transitioning to the next letter");
+        Debug.Log("Transitioning sto the next letter");
         nextLetterPosition = new Vector3(transform.position.x + gridXSize, transform.position.y, transform.position.z );
         isTransitionToNextLetter = true;
     }
@@ -77,6 +77,7 @@ public class CameraScript : MonoBehaviour
     {
         Debug.Log("Starting game transition");
         isGameStart = true;
+        
     }
 
     public void ZoomInToLetter( Word word )
