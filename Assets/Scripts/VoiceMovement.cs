@@ -10,12 +10,15 @@ public class VoiceMovement : MonoBehaviour
     // Start is called before the first frame update
 
     private KeywordRecognizer platformKeywordRecognizer;
+    public Rigidbody rb;
 
     private static bool platformerStart = false;
 
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
     void Start()
     {
+
+        //rb = GetComponent<Rigidbody>();
         actions.Add("move", Forward);
         actions.Add("come back", Backward);
         actions.Add("run", Forward);
@@ -58,25 +61,28 @@ public class VoiceMovement : MonoBehaviour
     }
 
     
-    private void Forward()
+    public void Forward()
     {
         transform.Translate(Vector3.forward);
     }
 
-    private void Backward()
+    public void Backward()
     {
         transform.Translate(Vector3.back);
     }
 
 
-    private void Left()
+    public void Left()
     {
-        transform.Translate(Vector3.left);
+        rb.AddForce(Vector3.left * 10, ForceMode.Impulse);
+        // transform.Translate(Vector3.left);
     }
 
-    private void Right()
+    public void Right()
     {
-        transform.Translate(Vector3.right);
+        //transform.Translate(Vector3.right);
+        rb.AddForce(Vector3.right * 10, ForceMode.Impulse);
+        // Debug.Log("Truned Right" + transform.position);
     }
     
     public static void enablePlatformRecognition(){

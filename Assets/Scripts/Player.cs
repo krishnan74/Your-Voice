@@ -14,14 +14,17 @@ public class Player : MonoBehaviour
 
     public bool readyToMove;
     private Rigidbody playerRigidBody;
+
     public void Start()
     {
         SpawnPlayerCharacter();
+
     }
 
     public void Update()
     {
         playerMovement();
+
     }
 
     public void SpawnPlayerCharacter()
@@ -46,7 +49,7 @@ public class Player : MonoBehaviour
     {
         if (readyToMove == true && playerInstance != null)
         {
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) )
 
             {
                 playerInstance.transform.Translate(Vector3.right * speedToMove * Time.deltaTime);

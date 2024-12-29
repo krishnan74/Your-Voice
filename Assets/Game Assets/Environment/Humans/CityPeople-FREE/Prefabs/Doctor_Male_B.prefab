@@ -1016,6 +1016,7 @@ GameObject:
   - component: {fileID: 7658026095892835012}
   - component: {fileID: 3611424025632110907}
   - component: {fileID: -7820668768030871791}
+  - component: {fileID: 2919404249995423022}
   m_Layer: 0
   m_Name: Doctor_Male_B
   m_TagString: Player
@@ -1089,6 +1090,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1.42, z: 0.82}
   m_Center: {x: 0, y: 0.83, z: 0}
+--- !u!114 &2919404249995423022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993270559495516286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd31fd72eb5de3a4d8ec26da9e3da9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 3611424025632110907}
 --- !u!1 &7372501814652593214
 GameObject:
   m_ObjectHideFlags: 0

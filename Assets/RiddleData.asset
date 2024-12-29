@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RiddleData
   m_EditorClassIdentifier: 
   riddles:
-  - question: Pet
-    answer: CAT
+  - question: What is opposite of fat
+    answer: FIT

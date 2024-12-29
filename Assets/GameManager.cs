@@ -113,8 +113,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            crossWordKeyWordRecognizer.Stop();
-            Debug.Log("Keyword Recognizer Stopped");
+            if(crossWordKeyWordRecognizer.IsRunning){
+                crossWordKeyWordRecognizer.Stop();
+                Debug.Log("Keyword Recognizer Stopped");
+            }
+          
         }
     }
 
@@ -158,8 +161,8 @@ public class GameManager : MonoBehaviour
     public void SpawnLetters()
     {
         Debug.Log("Spawning Letters");
-    wordList.Add(new Word("CTTC", Word.Direction.Horizontal, 0, 0)); 
-    wordList.Add(new Word("TCCT", Word.Direction.Vertical, 3,0));
+    wordList.Add(new Word("FIT", Word.Direction.Horizontal, 0, 0)); 
+    //wordList.Add(new Word("TCCT", Word.Direction.Vertical, 3,0));
     // wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2));
     // wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2)); 
     // wordList.Add(new Word("AGN", Word.Direction.Horizontal, 0, 1));
