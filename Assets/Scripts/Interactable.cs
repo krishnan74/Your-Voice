@@ -31,7 +31,7 @@ public class Interactable : MonoBehaviour
     if (canInteract && Input.GetKeyDown(KeyCode.E))
         {
             {
-                leverInteractable.transform.position += new Vector3(-0.35f,0,0);
+                leverInteractable.transform.position += new Vector3(-0.8f,0,0);
                 leverInteractable.transform.eulerAngles = new Vector3(0,0,90);
             }
         }

@@ -9,6 +9,12 @@ public class Gravity : MonoBehaviour
 
     [SerializeField] bool canFly;
 
+    private Player player;
+
+    private void Start()
+        {
+            player = FindObjectOfType<Player>();
+        }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -22,7 +28,8 @@ public class Gravity : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             canFly = false;
-            gravityObject.GetComponent<Rigidbody>().useGravity = true;
+            player.playerInstance.GetComponent<Rigidbody>().useGravity = true;
+            player.playerInstance.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
     }
 
@@ -30,8 +37,8 @@ public class Gravity : MonoBehaviour
     {
         if (canFly)
         {
-            gravityObject.GetComponent<Rigidbody>().useGravity = false;
-            gravityObject.GetComponent<Rigidbody>().velocity = new Vector3(0, velocityUpward, 0);
+            player.playerInstance.GetComponent<Rigidbody>().useGravity = false;
+            player.playerInstance.GetComponent<Rigidbody>().velocity = new Vector3(0, velocityUpward, 0);
         }
     }
 }
