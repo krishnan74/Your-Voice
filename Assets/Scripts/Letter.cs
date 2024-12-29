@@ -7,7 +7,7 @@ public class Letter
     private int RowNumber;
     private int ColNumber;
 
-    private Vector3 firstGridSlot = new Vector3(0,0,0);
+    private Vector3 firstGridSlot = new Vector3(5.5f,0,127.7f);
 
     public Letter(
         char character,
@@ -37,6 +37,6 @@ public class Letter
     }
 
     public Vector3 getCoordinates(){
-        return new Vector3(firstGridSlot.x + ( 26 * this.RowNumber) ,firstGridSlot.y - ( 26 * this.ColNumber), 214.5f);
+        return new Vector3(firstGridSlot.x + ( 26 * this.RowNumber) ,firstGridSlot.y - ( 26 * this.ColNumber), 122.64f);
     }
 }

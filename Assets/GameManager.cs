@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameMenuUI;
 
+    
+
     public List<Word> wordList = new List<Word>();
 
     private KeywordRecognizer crossWordKeyWordRecognizer;
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, Action> menuActions = new Dictionary<string, Action>();
 
     private bool isRiddleFound = false;
+
+    private bool isGameStart = false;
     private int currentRiddleIndex = 0;
 
     public float CamMoveSpeed = 5f;
@@ -52,9 +56,11 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Answers: " + string.Join(", ", answers.ToArray()));
         gameMenuKeyWordRecognizer = new KeywordRecognizer(menuActions.Keys.ToArray());
-        gameMenuKeyWordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+        gameMenuKeyWordRecognizer.OnPhraseRecognized += RecognizedMenuSpeech;
 
         gameMenuKeyWordRecognizer.Start();
+
+        Debug.Log("Game Menu KeyRecognizer Started");
 
         crossWordKeyWordRecognizer = new KeywordRecognizer(answers.ToArray());
         crossWordKeyWordRecognizer.OnPhraseRecognized += RecognizedSpeech;
@@ -70,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Started");
         //GameStartUI.SetActive(false);
+        isGameStart = true;
         cameraScriptObject.GameStartTransition();
     }
 
@@ -96,12 +103,12 @@ public class GameManager : MonoBehaviour
             NextLetter();
         }
 
-        if (!isRiddleFound)
+        if (!isRiddleFound )
         {
-            if (!crossWordKeyWordRecognizer.IsRunning)
+            if (!crossWordKeyWordRecognizer.IsRunning && isGameStart)
             {
                 crossWordKeyWordRecognizer.Start();
-                Debug.Log("Keyword Recognizer Started");
+                Debug.Log("Cross Keyword Recognizer Started");
             }
         }
         else
@@ -117,6 +124,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Riddle Displayed: " + riddleData.riddles[currentRiddleIndex].question);
     }
 
+    private void RecognizedMenuSpeech(PhraseRecognizedEventArgs speech ){
+        Debug.Log($"Recognized Text: {speech.text}, Confidence: {speech.confidence}");
+        menuActions[speech.text].Invoke();
+
+    }
     private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
     {
         Debug.Log($"Recognized Text: {speech.text}, Confidence: {speech.confidence}");
@@ -134,6 +146,7 @@ public class GameManager : MonoBehaviour
             if (recognizedWord != null)
             {
                 ZoomIn(recognizedWord);
+                VoiceMovement.enablePlatformRecognition();
             }
             else
             {
@@ -145,36 +158,36 @@ public class GameManager : MonoBehaviour
     public void SpawnLetters()
     {
         Debug.Log("Spawning Letters");
-    wordList.Add(new Word("CAT", Word.Direction.Horizontal, 0, 0)); 
-    wordList.Add(new Word("FIGHT", Word.Direction.Vertical, 3,0));
-    wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2));
-    wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2)); 
-    wordList.Add(new Word("AGN", Word.Direction.Horizontal, 0, 1));
-    wordList.Add(new Word("FTI", Word.Direction.Vertical, 0, 2));
-    wordList.Add(new Word("CUN", Word.Direction.Vertical, 2, 2));
-    wordList.Add(new Word("UGNTF", Word.Direction.Vertical, 4, 0));
+    wordList.Add(new Word("CTTC", Word.Direction.Horizontal, 0, 0)); 
+    wordList.Add(new Word("TCCT", Word.Direction.Vertical, 3,0));
+    // wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2));
+    // wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2)); 
+    // wordList.Add(new Word("AGN", Word.Direction.Horizontal, 0, 1));
+    // wordList.Add(new Word("FTI", Word.Direction.Vertical, 0, 2));
+    // wordList.Add(new Word("CUN", Word.Direction.Vertical, 2, 2));
+    // wordList.Add(new Word("UGNTF", Word.Direction.Vertical, 4, 0));
 
 
 
-        for (int i = 0; i < wordList.Count; i++)
-        {
-            for (int j = 0; j < wordList[i].getLetters().Count; j++)
-            {
-                char letter = wordList[i].getLetters()[j].getCharacter();
-                Vector3 coordinates = wordList[i].getLetters()[j].getCoordinates();
+        // for (int i = 0; i < wordList.Count; i++)
+        // {
+        //     for (int j = 0; j < wordList[i].getLetters().Count; j++)
+        //     {
+        //         char letter = wordList[i].getLetters()[j].getCharacter();
+        //         Vector3 coordinates = wordList[i].getLetters()[j].getCoordinates();
 
-                GameObject currentAlphabet = System.Array.Find(AlphabetPrefabs, prefab => prefab.name == letter.ToString());
+        //         GameObject currentAlphabet = System.Array.Find(AlphabetPrefabs, prefab => prefab.name == letter.ToString());
 
-                if (currentAlphabet != null)
-                {
-                    Instantiate(currentAlphabet, coordinates, Quaternion.identity);
-                }
-                else
-                {
-                    Debug.LogError($"Prefab for letter '{letter}' not found!");
-                }
-            }
-        }
+        //         if (currentAlphabet != null)
+        //         {
+        //             Instantiate(currentAlphabet, coordinates, Quaternion.identity);
+        //         }
+        //         else
+        //         {
+        //             Debug.LogError($"Prefab for letter '{letter}' not found!");
+        //         }
+        //     }
+        // }
     }
 
     public void ZoomIn(Word word)

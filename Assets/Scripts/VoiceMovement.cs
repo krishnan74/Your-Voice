@@ -11,7 +11,7 @@ public class VoiceMovement : MonoBehaviour
 
     private KeywordRecognizer platformKeywordRecognizer;
 
-    private bool platformerStart = false;
+    private static bool platformerStart = false;
 
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
     void Start()
@@ -28,12 +28,27 @@ public class VoiceMovement : MonoBehaviour
     }
 
     void Update(){
-        if( platformerStart) { 
-            platformKeywordRecognizer.Start();
+
+        
+        if (platformerStart)
+        {
+            if (!platformKeywordRecognizer.IsRunning)
+            {
+                platformKeywordRecognizer.Start();
+                Debug.Log("Cross Keyword Recognizer Started");
+            }
         }
-        else {
-            platformKeywordRecognizer.Stop();
+        else
+        {
+            if ( platformKeywordRecognizer.IsRunning){
+                platformKeywordRecognizer.Stop();
+                Debug.Log("Keyword Recognizer Stopped");
+            }
+            
         }
+
+
+       
     }
 
     private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
@@ -64,4 +79,7 @@ public class VoiceMovement : MonoBehaviour
         transform.Translate(Vector3.right);
     }
     
+    public static void enablePlatformRecognition(){
+        platformerStart = true;
+    }
 }
