@@ -57,26 +57,26 @@ public class Player : MonoBehaviour
                 playerInstance.transform.Translate(Vector3.left * speedToMove * Time.deltaTime);
             }
 
-            if (Input.GetKey(KeyCode.Space) && isGrounded())
-            {
-                playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }
+            // if (Input.GetKey(KeyCode.Space) && isGrounded())
+            // {
+            //     playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // }
         }
     }
 
-    private bool isGrounded()
-    {
-        return Physics.Raycast(playerInstance.transform.position, Vector3.down, rayCastDistance);
-    }
+    // private bool isGrounded()
+    // {
+    //     return Physics.Raycast(playerInstance.transform.position, Vector3.down, rayCastDistance);
+    // }
 
-    private void OnDrawGizmos()
-    {
-        if (playerInstance != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(playerInstance.transform.position, playerInstance.transform.position + Vector3.down * rayCastDistance);
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     if (playerInstance != null)
+    //     {
+    //         Gizmos.color = Color.red;
+    //         Gizmos.DrawLine(playerInstance.transform.position, playerInstance.transform.position + Vector3.down * rayCastDistance);
+    //     }
+    // }
 
 
 }
