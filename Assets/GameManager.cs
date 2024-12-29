@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using System;
 using UnityEngine.Windows.Speech;
 using TMPro;
 
@@ -13,9 +15,16 @@ public class GameManager : MonoBehaviour
     public GameObject[] AlphabetPrefabs;
     public CameraScript cameraScriptObject;
 
+    public GameObject gameMenuUI;
+
     public List<Word> wordList = new List<Word>();
 
     private KeywordRecognizer crossWordKeyWordRecognizer;
+
+    private KeywordRecognizer gameMenuKeyWordRecognizer;
+
+    private Dictionary<string, Action> menuActions = new Dictionary<string, Action>();
+
     private bool isRiddleFound = false;
     private int currentRiddleIndex = 0;
 
@@ -30,6 +39,10 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        menuActions.Add("pause", PauseGame);
+        menuActions.Add("start game", StartGame);
+        menuActions.Add("open settings", OpenSettings);
+
         // Initialize Keyword Recognizer with answers from the riddle data
         List<string> answers = new List<string>();
         foreach (var riddle in riddleData.riddles)
@@ -38,6 +51,11 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("Answers: " + string.Join(", ", answers.ToArray()));
+        gameMenuKeyWordRecognizer = new KeywordRecognizer(menuActions.Keys.ToArray());
+        gameMenuKeyWordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+
+        gameMenuKeyWordRecognizer.Start();
+
         crossWordKeyWordRecognizer = new KeywordRecognizer(answers.ToArray());
         crossWordKeyWordRecognizer.OnPhraseRecognized += RecognizedSpeech;
 
@@ -46,6 +64,24 @@ public class GameManager : MonoBehaviour
 
         // Spawn letters for the first word
         SpawnLetters();
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("Game Started");
+        //GameStartUI.SetActive(false);
+        cameraScriptObject.GameStartTransition();
+    }
+
+    public void PauseGame(){
+        Debug.Log("Game Paused");
+        gameMenuUI.SetActive(true);
+        Time.timeScale = 0;
+
+    }
+
+    public void OpenSettings(){
+        Debug.Log("Settings opened");
     }
 
     void Update()
