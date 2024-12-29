@@ -1,3 +1,4 @@
+CameraScript.cs // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,19 @@ public class CameraScript : MonoBehaviour
     public Transform secondTransformPosition; // Target position for the initial transition
     public float camMoveSpeed = 5f; // Speed of camera movement
 
+    public int[] currentGridPosition = new int[2] { 0, 0 };
     private bool isGameStart = false; 
     private bool isTransitionToNextLetter = false;
 
     private bool isZoomIn = false;
+
+    private bool isPanOut = false;
     private Vector3 nextLetterPosition;
     private Vector3 zoomInPosition;
+
+    private Vector3 panOutPosition = new Vector3(44.9000015f, -50.5f, 95f);
+
+
 
     public float gridToCameraDistance = 1f;
     public float gridXSize = 1f;
@@ -49,6 +57,16 @@ public class CameraScript : MonoBehaviour
 
             });
         }
+
+        if(isPanOut)
+        {
+            MoveCameraToTarget(panOutPosition, transform.rotation, () =>
+            {
+                isPanOut = false; // Stop transition after reaching the target
+                Debug.Log("Panned out to the original position");
+
+            });
+        }
     }
 
     private void MoveCameraToTarget(Vector3 targetPosition, Quaternion targetRotation, System.Action onComplete)
@@ -68,7 +86,7 @@ public class CameraScript : MonoBehaviour
 
     public void NextLetterTransition()
     {
-        Debug.Log("Transitioning sto the next letter");
+        Debug.Log("Transitioning to the next letter");
         nextLetterPosition = new Vector3(transform.position.x + gridXSize, transform.position.y, transform.position.z );
         isTransitionToNextLetter = true;
     }
@@ -77,19 +95,32 @@ public class CameraScript : MonoBehaviour
     {
         Debug.Log("Starting game transition");
         isGameStart = true;
-        
     }
 
     public void ZoomInToLetter( Word word )
     {
         Debug.Log("Zooming in to the letter");
 
-        float[] firstLetterCoordinates = word.getFirstLetterCoordinates();
-        zoomInPosition = new Vector3(firstLetterCoordinates[0], 
-            firstLetterCoordinates[1]
-            , -44.228199f);
+        Letter firstLetter = word.getLetters()[0];
+
+        Vector3 firstLetterCoordinates = firstLetter.getCoordinates();
+
+        currentGridPosition[0] = firstLetter.getRowNumber();
+        currentGridPosition[1] = firstLetter.getColNumber();
+
+        Debug.Log("Current Camera Grid Position [" + currentGridPosition[0] + " " + currentGridPosition[1] + "]");
+
+        zoomInPosition = new Vector3(firstLetterCoordinates.x, firstLetterCoordinates.y, 192.5f);
 
         //zoomInPosition = new Vector3(transform.position.x + gridToCameraDistance, firstLetterCoordinates[1], firstLetterCoordinates[0]);
         isZoomIn = true;
     }
+
+    public void PanOutToOriginalPosition()
+    {
+        Debug.Log("Panning out to the original position");
+        isPanOut = true;
+    }
 }
+
+

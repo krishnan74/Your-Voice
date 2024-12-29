@@ -1,3 +1,4 @@
+VoiceMovement.cs//
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ public class VoiceMovement : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    private KeywordRecognizer keywordRecognizer;
+    private KeywordRecognizer platformKeywordRecognizer;
+
+    private bool platformerStart = false;
 
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
     void Start()
@@ -20,9 +23,18 @@ public class VoiceMovement : MonoBehaviour
         actions.Add("turn left", Left);
         actions.Add("turn right", Right);
 
-        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
-        keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
-        keywordRecognizer.Start();
+        platformKeywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
+        platformKeywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+        
+    }
+
+    void Update(){
+        if( platformerStart) { 
+            platformKeywordRecognizer.Start();
+        }
+        else {
+            platformKeywordRecognizer.Stop();
+        }
     }
 
     private void RecognizedSpeech(PhraseRecognizedEventArgs speech)

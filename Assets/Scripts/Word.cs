@@ -5,18 +5,63 @@ public class Word
 {
     private string wordString;
     private bool isFound = false;
-    private float firstLetterXCoordinate;
-    private float firstLetterYCoordinate;
-    private float lastLetterXCoordinate;
-    private float lastLetterYCoordinate;
+    private List<Letter> letters = new List<Letter>();
+    private Direction direction;
 
-    public Word(string wordString, Vector3 firstLetterCoordinates, Vector3 lastLetterCoordinates)
+    private int startingRowNumber;
+    private int startingColNumber;
+    public enum Direction
     {
-        this.wordString = wordString;
-        this.firstLetterXCoordinate = firstLetterCoordinates.x;
-        this.firstLetterYCoordinate = firstLetterCoordinates.y;
-        this.lastLetterXCoordinate = lastLetterCoordinates.x;
-        this.lastLetterYCoordinate = lastLetterCoordinates.y;
+        Horizontal,
+        Vertical,
+        Diagonal
+    }
+
+    public Word(string wordString, Direction direction, int startingRow, int startingCol)
+{
+    this.wordString = wordString;
+    this.direction = direction;
+    this.startingRowNumber = startingRow;
+    this.startingColNumber = startingCol;
+
+    char[] characters = wordString.ToCharArray();
+
+    for (int i = 0; i < characters.Length; i++)
+    {
+        Letter letter = null;
+        startingRowNumber = startingRow;
+        startingColNumber = startingCol;
+
+        if (this.direction == Direction.Horizontal)
+        {
+            letter = new Letter(
+                characters[i],
+                startingRowNumber +i,
+                startingColNumber
+            );
+        }
+        else if (this.direction == Direction.Vertical)
+        {
+            letter = new Letter(
+                characters[i],
+                startingRowNumber,
+                startingColNumber + i
+            );
+        }
+        else if (this.direction == Direction.Diagonal)
+        {
+            letter = new Letter(
+                characters[i],
+                startingRowNumber + i,
+                startingColNumber + i
+            );
+        }
+
+        if (letter != null)
+        {
+            letters.Add(letter);
+        }
+    }
     }
 
     public void wordFound(){
@@ -27,11 +72,14 @@ public class Word
         return this.isFound;
     }
 
-    public float[] getFirstLetterCoordinates(){
-        return new float[] { this.firstLetterXCoordinate, this.firstLetterYCoordinate };
+    public string getWordString()
+    {
+        return this.wordString;
     }
 
-    public float[] getLastLetterCoordinates(){
-        return new float[] { this.lastLetterXCoordinate, this.lastLetterYCoordinate };
+    public List<Letter> getLetters()
+    {
+        return this.letters;
     }
+
 }
