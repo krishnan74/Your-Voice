@@ -19,6 +19,8 @@ public class CameraScript : MonoBehaviour
 
     private Vector3 panOutPosition = new Vector3(44.9000015f, -50.5f, 95f);
 
+    public float duration = 1f;
+
 
 
     public float gridToCameraDistance = 1f;
@@ -119,6 +121,22 @@ public class CameraScript : MonoBehaviour
     {
         Debug.Log("Panning out to the original position");
         isPanOut = true;
+    }
+
+    public void ShakeCamera(){
+        StartCoroutine(Shaking());
+    }
+    IEnumerator Shaking(){
+        Vector3 startPosition = transform.position;
+        float elapsedTime = 0f;
+
+        while(elapsedTime < duration){
+            elapsedTime += Time.deltaTime;
+            transform.position = startPosition + Random.insideUnitSphere;
+            yield return null;
+        }
+
+        transform.position = startPosition;
     }
 }
 

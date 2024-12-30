@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: RiddleData
   m_EditorClassIdentifier: 
   riddles:
-  - question: What is opposite of fat
-    answer: FIT
+  - question: "When tempers flare and spirits collide, I\u2019m there, though peace
+      is often denied. In battles or arguments, I hold sway, What am I? What might
+      ruin your day?"
+    answer: FIGHT
+  - question: "I prowl at night and nap in the sun, With whiskers and tails, I\u2019m
+      loved by some. I purr and meow, but I don\u2019t wear a hat, What am I? I\u2019m
+      a household... what?"
+    answer: CAT
+  - question: "I\u2019m what you seek when you want to play, I brighten up the dullest
+      day. Laughter, joy, and games are my clue, What am I? Think, it\u2019s easy
+      to do!"
+    answer: FUN

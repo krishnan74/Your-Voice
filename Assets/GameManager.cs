@@ -156,12 +156,20 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"Word '{correctAnswer}' not found in the word list!");
             }
         }
+
+        else{
+            cameraScriptObject.ShakeCamera();
+        }
     }
 
     public void SpawnLetters()
     {
         Debug.Log("Spawning Letters");
-    wordList.Add(new Word("FIT", Word.Direction.Horizontal, 0, 0)); 
+    wordList.Add(new Word("CAT", Word.Direction.Horizontal, 0, 0));
+    wordList.Add(new Word("FIGHT", Word.Direction.Horizontal, 3, 0)); 
+
+    wordList.Add(new Word("FUN", Word.Direction.Horizontal, 1, 2)); 
+
     //wordList.Add(new Word("TCCT", Word.Direction.Vertical, 3,0));
     // wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2));
     // wordList.Add(new Word("FUN", Word.Direction.Vertical, 1, 2)); 
