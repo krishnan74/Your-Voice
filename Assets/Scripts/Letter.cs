@@ -16,8 +16,8 @@ public class Letter
     )
     {
         this.character = character;
-        this.RowNumber = RowNumber;
-        this.ColNumber = ColNumber;
+        this.RowNumber = ColNumber;
+        this.ColNumber = RowNumber;
     }
     
 

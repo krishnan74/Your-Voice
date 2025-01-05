@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     public Transform secondTransformPosition; // Target position for the initial transition
-    public float camMoveSpeed = 5f; // Speed of camera movement
+    public float camMoveSpeed = 7f; // Speed of camera movement
 
     public int[] currentGridPosition = new int[2] { 0, 0 };
     private bool isGameStart = false; 
@@ -17,14 +17,14 @@ public class CameraScript : MonoBehaviour
     private Vector3 nextLetterPosition;
     private Vector3 zoomInPosition;
 
-    private Vector3 panOutPosition = new Vector3(44.9000015f, -50.5f, 95f);
+    public Transform panOutPosition;
 
     public float duration = 1f;
 
 
 
     public float gridToCameraDistance = 1f;
-    public float gridXSize = 1f;
+    public float gridXSize = 26f;
 
     private void Update()
     {
@@ -61,7 +61,7 @@ public class CameraScript : MonoBehaviour
 
         if(isPanOut)
         {
-            MoveCameraToTarget(panOutPosition, transform.rotation, () =>
+            MoveCameraToTarget(panOutPosition.position, transform.rotation, () =>
             {
                 isPanOut = false; // Stop transition after reaching the target
                 Debug.Log("Panned out to the original position");
@@ -85,10 +85,11 @@ public class CameraScript : MonoBehaviour
         }
     }
 
-    public void NextLetterTransition()
+    public void NextLetterTransition(Vector3 transitionPosition)
     {
         Debug.Log("Transitioning to the next letter");
-        nextLetterPosition = new Vector3(transform.position.x + gridXSize, transform.position.y, transform.position.z );
+        Debug.Log("Transition Position: " + transitionPosition);
+        nextLetterPosition = new Vector3(transitionPosition.x, transitionPosition.y, 192.5f);
         isTransitionToNextLetter = true;
     }
 

@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameMenuUI;
 
+    public CoordinatesData coordinatesData; 
+
     
 
     public List<Word> wordList = new List<Word>();
@@ -33,6 +35,12 @@ public class GameManager : MonoBehaviour
     private int currentRiddleIndex = 0;
 
     public float CamMoveSpeed = 5f;
+
+    public Word currentWord;
+
+    public int currentIndex;
+    public GameObject StrikeDownCube;
+
 
     void Start()
     {
@@ -93,14 +101,27 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O)) // Pan out the camera
-        {
-            PanOut();
+
+        if( Input.GetKeyDown(KeyCode.Z)){
+            Word zoomingWord = wordList.Find(word => word.getWordString().ToUpper() == "CAT");
+            currentWord = zoomingWord;
+            currentIndex = 0;
+            ZoomIn( zoomingWord);
+            Debug.Log("Current Word Zoomed In: " + zoomingWord.getWordString() + "Current Letter" + zoomingWord.getLetters()[currentIndex].getCharacter());
+            
         }
 
-        if (Input.GetKeyDown(KeyCode.N)) // Move to the next letter
-        {
+        if( Input.GetKeyDown(KeyCode.S)){
+            StartGame();
+        }
+
+        if( Input.GetKeyDown(KeyCode.N)){
+            //PauseGame();
             NextLetter();
+        }
+
+        if( Input.GetKeyDown(KeyCode.P)){
+            PanOut();
         }
 
         if (!isRiddleFound )
@@ -148,6 +169,8 @@ public class GameManager : MonoBehaviour
 
             if (recognizedWord != null)
             {
+                currentWord = recognizedWord;
+                currentIndex = 0;
                 ZoomIn(recognizedWord);
                 VoiceMovement.enablePlatformRecognition();
             }
@@ -164,7 +187,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnLetters()
     {
-        Debug.Log("Spawning Letters");
+    Debug.Log("Spawning Letters");
     wordList.Add(new Word("CAT", Word.Direction.Horizontal, 0, 0));
     wordList.Add(new Word("FIGHT", Word.Direction.Horizontal, 3, 0)); 
 
@@ -215,6 +238,7 @@ public class GameManager : MonoBehaviour
         // Move to the next riddle after panning out
         isRiddleFound = false;
         currentRiddleIndex++;
+        StrikeDownCube.SetActive(true);
 
         if (currentRiddleIndex < riddleData.riddles.Count)
         {
@@ -228,7 +252,49 @@ public class GameManager : MonoBehaviour
 
     public void NextLetter()
     {
-        Debug.Log("Next Letter");
-        cameraScriptObject.NextLetterTransition();
+    // Check if all letters in the current word are processed
+    currentIndex++;
+
+
+    Debug.Log("Transitioned");
+    //Debug.Log("Current Letter" + currentWord.getLetters()[currentIndex].getCharacter());
+
+
+    // if (currentIndex + 1 > currentWord.getLetters().Count)
+    // {
+    //     Debug.Log("All letters found");
+    //     PanOut();
+    //     return;
+    // }
+
+    //Debug.Log("Next Letter");
+
+    // Get row and column numbers of the next letter
+    int rowNumberOfcurrentLetter = currentWord.getLetters()[currentIndex].getRowNumber();
+
+   // Debug.Log("Row Number of current letter: " + rowNumberOfcurrentLetter);
+    int colNumberOfcurrentLetter = currentWord.getLetters()[currentIndex].getColNumber();
+
+    //Debug.Log("Column Number of current letter: " + colNumberOfcurrentLetter);
+
+    // Find the matching coordinate in coordinatesData
+    Coordinates nextCoordinates = coordinatesData.coordinates.Find(coordinate => 
+        coordinate.matrixCoordinates[0] == rowNumberOfcurrentLetter && 
+        coordinate.matrixCoordinates[1] == colNumberOfcurrentLetter);
+
+
+    if (nextCoordinates != null)
+    {
+        // Pass the world coordinates to the camera script
+    //Debug.Log("Next Coordinates: " + nextCoordinates.worldCoordinates);
+
+        Vector3 nextPosition = nextCoordinates.worldCoordinates;
+        cameraScriptObject.NextLetterTransition(nextPosition);
     }
+    else
+    {
+        Debug.LogError("No matching coordinates found for the current letter!");
+    }
+}
+
 }
